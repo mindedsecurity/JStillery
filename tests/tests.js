@@ -7,7 +7,6 @@ var esprima = require("esprima");
 var escodegen = require("escodegen");
 
 var esdeob = require("../src/jstiller.js");
-var ops = require("../../libs/ops");
 
 function astFromFile(filename, loc, obj) {
   var LOC = loc || false;
