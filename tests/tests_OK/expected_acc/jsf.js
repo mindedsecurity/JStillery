@@ -1,0 +1,1 @@
+[].filter.constructor('alert(1)')();

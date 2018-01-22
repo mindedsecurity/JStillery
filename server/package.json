@@ -1,0 +1,23 @@
+{
+  "name": "JStillery_Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "compression": "^1.4.4",
+    "escodegen": "",
+    "esmangle": "",
+    "esprima": "",
+    "express": "^4.12.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Stefano Di Paola <stefano.dipaola@mindedsecurity.com> (http://www.mindedsecurity.com)",
+  "company": "Minded Security",
+  "contributors": ["Gianluca Brindisi"],
+  "license": "ISC"
+}

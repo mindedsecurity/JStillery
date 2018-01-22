@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>JStillery</title>
+
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/codemirror.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/bootstrap-markdown.min.css">
+<link rel="stylesheet" href="/static/css/jstillery.css">
+
+<!--JavaScript -->
+<script src="/static/js/vendor/jquery-1.11.2.min.js"></script>
+<script src="/static/js/vendor/jquery-ui.min.js"></script>
+<script src="/static/js/vendor/bootstrap.min.js"></script>
+<script src="/static/js/vendor/beautify.js"></script>
+<script src="/static/js/vendor/codemirror.min.js"></script>
+
+<script src="/static/js/jstillery.jQuery.js"></script>
+<script src="/static/js/jstillery_panel.js"></script>
+</head>
+<body>
+
+<div class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>    
+    <a class="navbar-brand" href="#">
+         <img alt="minded" src="/static/img/mindedlogo.png" />
+      </a> </div>
+      <a class="navbar-brand" href="#">
+        <img alt="JStillery" src="/static/img/jstillery-lw-full.png" />
+      </a>
+ 
+    <div class="collapse navbar-collapse pull-right">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="#" id="save-button" data-toggle="popover" data-placement="bottom" title="Feature Disabled" tabindex="1" data-trigger="focus" data-container="body" data-content="Saving is only enabled to good looking people."><i class="fa fa-save fa-fw"></i> Save</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<div class="container">
+
+<div id="notifications" class="row">
+
+</div>
+
+<div class="row">  
+  
+<div class="tabbable">
+  <ul id="steps-tabs" class="nav nav-tabs">
+
+    <li class="pull-right"><a class="btn btn-link" id="new-step-button" title="add step" href="#">&nbsp;<i class="fa fa-plus"></i>&nbsp;</a></li>
+
+  </ul>
+  <div id="steps-tabs-content" class="tab-content">
+    <div class="tab-pane active" id="notes-editor-tab">     
+      <div class="container">
+        <div class="row">
+            <div id="notes-editor-panel" class="panel panel-default">
+                <div class="panel-heading">
+                    Notes Editor
+                </div>
+                <textarea id="notes-editor" name="notes-editor" data-provide="markdown" data-resize="vertical" data-iconlibrary="fa"></textarea>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+  
+</div>
+</div><!-- /.container -->
+
+<div id="help-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Keyboard Shortcuts</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+            <li><kbd><kbd>ctrl</kbd> + <kbd>f</kbd></kbd> search</li>
+            <li><kbd><kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>r</kbd></kbd> regexp replace</li>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</body>
+</html>

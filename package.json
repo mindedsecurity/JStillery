@@ -1,0 +1,28 @@
+{
+  "name": "JStillery_Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "cheerio": "^1.0.0-rc.2",
+    "compression": "^1.4.4",
+    "escodegen": "",
+    "esmangle": "",
+    "esprima": "",
+    "express": "^4.12.4"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.0"
+  },
+  "scripts": {
+    "test": "mocha tests/tests.js",
+    "start_server": "cd server;npm start",
+    "cli": "./jstillery_cli.js \"$@\"",
+    "start": "npm run start_server"
+  },
+  "author": "Stefano Di Paola <stefano.dipaola@mindedsecurity.com> (http://www.mindedsecurity.com)",
+  "company": "Minded Security",
+  "license": "ISC"
+}

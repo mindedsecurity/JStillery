@@ -1,0 +1,98 @@
+.navbar { border-radius: 0px; }
+.navbar-brand img { height: 25px;}
+
+.alert-error {
+color: #a94442;
+background-color: #f2dede;
+border-color: #ebccd1;
+}
+
+/* Notes Editor */
+textarea.notes-editor { height: 100%; }
+.md-editor { border: 0;}
+.md-editor > .md-header { background: #ededed; padding: 1em }
+.md-editor textarea, .md-preview { background: #fff; border:0; height: 150px; padding: 15px;}
+.md-editor.active { border-color: transparent; box-shadow: 0px;}
+.md-header .btn-sm {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+.md-header .btn-sm span{
+    line-height:1.65;
+}
+/* CSS used here will be applied after bootstrap.css */
+ul#steps-tabs li a.step-tab-link {
+cursor: default;
+background-color: #fff;
+border: 1px solid #ddd;
+padding: 8px 15px;
+margin-top:4px;
+}
+ul#steps-tabs li a.step-tab-link:hover {
+    padding: 10px 15px;
+    margin-top: 0;
+}
+ul#steps-tabs li.active a {
+    color: #555;
+background-color: #fff;
+border-bottom-color: transparent;
+    padding: 10px 15px;
+    margin-top: 0;
+}
+
+
+
+ul#steps-tabs li a button { margin-left: 12px;}
+ul#steps-tabs .tab-divider { padding-right:10px;border-right:1px solid #ddd; display:inline-block;}
+
+    .tab-pane .container .row { margin-top: 1em; }
+    .code-panel .panel-subheader { background: #ededed; padding: 1em}
+    .code-panel .panel-body { padding: 0; }
+    .code-panel .panel-heading .btn-link, .btn-keyboard { background-color:transparent; border:0;color: #aaa;}
+    .btn-keyboard:hover { background: transparent !important; color: #000;}
+    /* Log Panel */
+    .log-panel .panel-body {
+        min-height: 100px; max-height: 100px; overflow-y:scroll; padding:0; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; }
+    .log-panel .log-entry {
+        padding:5px 15px; border-bottom: 1px solid #ededed;
+    }
+    .log-success {
+        background: #dff0d8;
+    }
+    .log-error {
+        background: #f2dede;
+    }
+
+.CodeMirror { border-bottom:10px solid #ededed;}
+    .CodeMirror-dialog {
+  position: absolute;
+  left: 0; right: 0;
+  background: white;
+  z-index: 15;
+  padding: .1em .8em;
+  overflow: hidden;
+  color: #333;
+}
+
+.CodeMirror-dialog-top {
+  border-bottom: 1px solid #eee;
+  top: 0;
+}
+
+.CodeMirror-dialog-bottom {
+  border-top: 1px solid #eee;
+  bottom: 0;
+}
+
+.CodeMirror-dialog input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 20em;
+  color: inherit;
+  font-family: monospace;
+}
+
+.CodeMirror-dialog button {
+  font-size: 70%;
+}

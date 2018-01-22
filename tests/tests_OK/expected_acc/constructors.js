@@ -1,0 +1,1 @@
+'function String() { [native code] }\nfunction Number() { [native code] }\nfunction Boolean() { [native code] }\nfunction Array() { [native code] }\nfunction Object() { [native code] }\n' + new Date().constructor + '\n' + Function;
