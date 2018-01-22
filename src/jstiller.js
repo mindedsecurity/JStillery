@@ -808,14 +808,18 @@ var jstiller = (function() {
   }
 
   function ast_reduce(ast, scope, expandvars, parent) {
+    if (!ast) {
+      return ast;
+    }
     debug("TYPE:",ast.type);
-
+    
     scope = scope || gscope;
 
     scope_set_this(scope, scope.__proto__[EXP_MAYBE_EXP_THIS_OBJ] || scope[EXP_THIS_OBJ]);
 
     var mypar = parent;
-    if (!ast) return ast;
+
+
     //ast.__parent__=parent;
     var ast_reduce_scoped = function(e) {
       return ast_reduce(e, scope, expandvars, ast);
