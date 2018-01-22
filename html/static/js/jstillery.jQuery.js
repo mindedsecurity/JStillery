@@ -221,6 +221,7 @@
     
     function sendObfuscated(el, src) {
       if (use_Remote) {
+        
         var content = src || el.getValue();
         $.ajax({
           url: deobURL,
@@ -240,7 +241,12 @@
             // else{
             //  add_notification ("Code deobfuscated", "info");
             // }
+          }).fail(function (argument) {
+            console.log("Fallback to local")
+            el.setValue(deobfuscate(content));
           });
+      }else{
+        el.setValue(deobfuscate(content));
       }
     }
     this.bindDeobfuscate = function(targetEditor) {
