@@ -50,7 +50,7 @@ app.post(server_config.rest_api_deobfuscate, function(req, res) {
   try {
     var ast = esmangle.optimize(esprima.parse(req.body.source), pass(), {
       destructive: true
-    })
+    });
     esdeob.init();
     ast = esdeob.deobfuscate(ast, null, true);
 
