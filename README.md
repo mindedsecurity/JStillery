@@ -41,6 +41,7 @@ $ curl 'http://localhost:3001/deobfuscate' -d '{"source":"a=1"}' -H 'Content-typ
 ## Web UI
 
 Add obfuscated code to the upper text area and press CTRL-ENTER.
+![image](https://user-images.githubusercontent.com/1196560/35220393-836aafd0-ff76-11e7-8ba9-86369e23573a.png?s=200)
 
 
 
