@@ -38,6 +38,11 @@ Launch server then:
 $ curl 'http://localhost:3001/deobfuscate' -d '{"source":"a=1"}' -H 'Content-type: application/json' 
 {"source":"a = 1;"}
 ```
+## Web UI
+
+Add obfuscated code to the upper text area and press CTRL-ENTER.
+
+
 
 # LICENSE
 
