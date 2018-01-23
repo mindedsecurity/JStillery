@@ -2898,7 +2898,8 @@ var jstiller = (function() {
               debug(scope)
               return mkliteral(value);
             } else {
-              _tmp = valFromScope.value;
+              // cast to int
+              _tmp = +valFromScope.value;
               valFromScope.value = uoperators[ast.operator](valFromScope.value)
               value = valFromScope.value;
               debug(scope);
