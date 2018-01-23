@@ -10,5 +10,5 @@ coverage*/
 node_modules
 package-lock.json
 jstiller.browser.js
-
+/html/jstiller.browser.js
 /standalone/html
