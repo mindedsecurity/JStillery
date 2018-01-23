@@ -47,6 +47,17 @@
         }
     }
 
+    function setCode(code){
+        var jsi = $(document).find(".code-panel").data("jstillery");
+        if(jsi){
+            jsi.current_editor.setValue(code);
+            setTimeout(function(){
+                jsi.current_editor.refresh();
+            },1);                
+        }else{
+            new_jstillery_panel(+(new Date()),code);
+        }
+    }
     function new_jstillery_panel(id,code) {
             var nextTab = STEPS + 1;
             if (typeof id != 'undefined') {
@@ -141,6 +152,7 @@
         $("#save-button").on("click", save);
         new_jstillery_panel( ""+Math.random(),"");
 
+        setCode(decodeURIComponent(atob(location.hash.slice(1))));
         // $.get( "/api/load", function(data) {
         //     if (data.result === true) {
         //         console.log(data);

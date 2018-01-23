@@ -83,6 +83,7 @@
       this.current_editor.options.extraKeys = {
         "Ctrl-Enter": function(el) {
           sendObfuscated(that.deob_editor, el.getValue());
+          location.hash=btoa(encodeURIComponent(el.getValue()));
         }
       }
       // Make it resizable
