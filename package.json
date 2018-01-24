@@ -18,7 +18,7 @@
   },
   "scripts": {
     "test": "mocha tests/tests.js",
-    "standalone": "cp -a html standalone/; browserify standalone/browserify.js > standalone/html/static/js/jstiller.browser.js",
+    "standalone": "rsync -rv html standalone/; browserify standalone/browserify.js > standalone/html/static/js/jstiller.browser.js",
     "start_server": "cd server;npm start",
     "cli": "./jstillery_cli.js \"$@\"",
     "start": "npm run start_server"
