@@ -36,6 +36,8 @@ var natives = require("./native_props").natives
 require("./libs/cycle");
 var collectHTMLData = require("./libs/htmlParse").collectHTMLData
 
+var USE_PARTIAL = typeof process.env.USE_PARTIAL !== 'undefined' ? process.env.USE_PARTIAL : true;
+
 function genToStringObj(a) {
   return function() {
     return "[object " + a + "]"
@@ -1842,7 +1844,7 @@ var jstiller = (function() {
           } else {
             calleeBody.retVal = mkliteral(calleeBody.value);
           }
-        } else if ( /*EXPERIMENTAL!*/ calleeBody && calleeBody.body.length === 1 && calleeBody.scope.hasOwnProperty("returns")
+        } else if ( /*EXPERIMENTAL!*/ calleeBody && calleeBody.body && calleeBody.body.length === 1 && calleeBody.scope.hasOwnProperty("returns")
           && calleeBody.scope.returns === 1) {
           //TODO   We need to copy the function scope and add params values!! tmp_scope = Object.create(calleBody.scope)
           //       Copy all values.
@@ -1956,7 +1958,9 @@ var jstiller = (function() {
                   }
                 };
                 try {
-                  var vm_returned = vm.runInNewContext("(" + genCode(value) + ")", Object.create(null, ctxt_Obj));
+                  if (USE_PARTIAL) {
+                    var vm_returned = vm.runInNewContext("(" + genCode(value) + ")", Object.create(null, ctxt_Obj));
+                  }
                 } catch (exc1) {
                   console.log("EXC", exc1, exc1.stack, genCode(value))
                 }
@@ -2010,7 +2014,9 @@ var jstiller = (function() {
                 }
               };
               try {
-                var vm_returned = vm.runInNewContext("(" + genCode(value) + ")", Object.create(null, ctxt_Obj));
+                if (USE_PARTIAL) {
+                  var vm_returned = vm.runInNewContext("(" + genCode(value) + ")", Object.create(null, ctxt_Obj));
+                }
               } catch (exc1) {
                 console.log("EXC", exc1, exc1.stack, genCode(value))
               }
@@ -2092,7 +2098,9 @@ var jstiller = (function() {
                 }
               };
               try {
-                var vm_returned = vm.runInNewContext("(" + genCode(value) + ")", Object.create(null, ctxt_Obj));
+                if (USE_PARTIAL) {
+                  var vm_returned = vm.runInNewContext("(" + genCode(value) + ")", Object.create(null, ctxt_Obj));
+                }
               } catch (exc1) {
                 console.log("EXC", exc1, exc1.stack, genCode(value))
               }
