@@ -1658,9 +1658,13 @@ var jstiller = (function() {
           };
         }
         // String literal methods
-        var methods1 = ["indexOf", "lastIndexOf", "toString", "charAt", "charCodeAt",
-          "contains", "endsWith", "substr", "substring", "slice", "concat", "quote", "startsWith",
-          "toLowerCase", "toUpperCase", "trim", "trimLeft", "trimRight", "replace", "italics", "anchor"];
+        // removed "match","split",
+        var methods1 = ["anchor","big","blink","bold","charAt","charCodeAt","codePointAt",
+        "concat","contains","endsWith","fixed","fontcolor","fontsize","includes","indexOf",
+        "italics","lastIndexOf","link","localeCompare","normalize","padEnd",
+        "padStart","quote","repeat","replace","search","slice","small","startsWith",
+        "strike","sub","substr","substring","sup","toLocaleLowerCase","toLocaleUpperCase",
+        "toLowerCase","toUpperCase","trim","trimLeft","trimRight","toString"];
 
         if (realCallee && realCallee.property && methods1.indexOf(realCallee.property.name) !== -1) {
           var strMet = realCallee.property.name;
