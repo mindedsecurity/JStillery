@@ -1603,6 +1603,49 @@ var jstiller = (function() {
           }
         }
 
+        // Array methods
+        if (match(realCallee, {
+            type: 'MemberExpression',
+            object: {
+              type: 'ArrayExpression'
+            },
+            property: {
+              type: 'Identifier',
+              name: "concat"
+            }
+          })) {
+          //s_tmp = ret.arguments.map(getValue)
+          _tmp = [];
+          ret.arguments.forEach(function(el) {
+            if (el.type === 'ArrayExpression') {
+              _tmp = _tmp.concat(el.elements);
+              return;
+            }
+            _tmp = _tmp.concat(el);
+            return;
+          });
+          return {
+            "type": "ArrayExpression",
+            "elements": realCallee.object.elements.concat(_tmp)
+          }
+        }
+
+        if (match(realCallee, {
+            type: 'MemberExpression',
+            object: {
+              type: 'ArrayExpression'
+            },
+            property: {
+              type: 'Identifier',
+              name: "reverse"
+            }
+          })) {
+          return {
+            "type": "ArrayExpression",
+            "elements": realCallee.object.elements.reverse()
+          };
+        }
+        // String literal methods
         var methods1 = ["indexOf", "lastIndexOf", "toString", "charAt", "charCodeAt",
           "contains", "endsWith", "substr", "substring", "slice", "concat", "quote", "startsWith",
           "toLowerCase", "toUpperCase", "trim", "trimLeft", "trimRight", "replace", "italics", "anchor"];
