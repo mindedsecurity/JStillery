@@ -739,8 +739,11 @@ var jstiller = (function() {
     if (n.type === "Identifier" && (n.name === "Infinity" || n.name === "undefined" || n.name === "null" || n.name === "NaN"))
       return n.name;
 
-    if (n.type === "Identifier" && global_vars.indexOf(n.name) !== -1) { // is a global standard object/funct
-      return global[n.name].toString()
+    if (n.type === "Identifier") { // is a global standard object/funct
+      if (global_vars.indexOf(n.name) !== -1)
+        return global[n.name].toString();
+      if (Object.keys(window).indexOf(n.name) !== -1)
+        return window[n.name].toString();
     }
     //Scope {value:ObjRef, pure:true|false, pure_global:true|false}
     if (n.type === "Identifier" && gscope[n.name]) { // is a Global identifier
