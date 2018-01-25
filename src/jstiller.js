@@ -1609,9 +1609,11 @@ var jstiller = (function() {
               type: 'Identifier',
               name: realCallee.name
             }) && ret.purearg) {
-            value = global[realCallee.name].apply(null,
-              ret.arguments.map(getValue));
-            return mkliteral(value);
+            try {
+              value = global[realCallee.name].apply(null,
+                ret.arguments.map(getValue));
+              return mkliteral(value);
+            } catch (e) {}
           }
         }
 
