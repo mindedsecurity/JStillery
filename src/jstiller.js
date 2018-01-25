@@ -2170,7 +2170,7 @@ var jstiller = (function() {
             if ((parent.type !== 'MemberExpression' || ast.firstObj) && scope.externalRefs.indexOf(ast) === -1)
               scope.externalRefs.push(ast);
           }
-          valFromScope = valFromScope.value;
+          valFromScope = valFromScope.value || {};
           if (valFromScope.value && valFromScope.value.value)
             valFromScope.pure = valFromScope.value.pure;
         } else if (global_vars.indexOf(ast.name) !== -1 && scope.closed !== false) {
