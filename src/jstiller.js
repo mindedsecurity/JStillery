@@ -1602,16 +1602,34 @@ var jstiller = (function() {
             ret.arguments.map(getValue));
           return mkliteral(value);
         }
-        var methods1 = ["Date", "escape", "unescape", "encodeURIComponent", "decodeURIComponent", "encodeURI",
-          "decodeURI"];
-        if (realCallee && realCallee.type === "Identifier" && methods1.indexOf(realCallee.name) !== -1) {
+
+        if (match(realCallee, {
+            type: 'Identifier',
+            name: "Date"
+          }) && ret.purearg) {
+          try {
+            value = global["Date"].apply(null,
+              ret.arguments.map(getValue));
+            return mkliteral(value);
+          } catch (e) {}
+        }
+
+        var methods1 = ["escape", "unescape", "encodeURIComponent",
+          "decodeURIComponent", "encodeURI", "decodeURI"];
+        if (realCallee
+          && realCallee.type === "Identifier"
+          && methods1.indexOf(realCallee.name) !== -1) {
+          if (ret.arguments.length) {
+            try {
+              _tmp = toString(ret.arguments[0]);
+            } catch (e) {}
+          }
           if (match(realCallee, {
               type: 'Identifier',
               name: realCallee.name
-            }) && ret.purearg) {
+            }) && _tmp) {
             try {
-              value = global[realCallee.name].apply(null,
-                ret.arguments.map(getValue));
+              value = global[realCallee.name].call(null, _tmp);
               return mkliteral(value);
             } catch (e) {}
           }
