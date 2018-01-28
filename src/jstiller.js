@@ -3089,8 +3089,70 @@ var jstiller = (function() {
 
       case 'WithStatement': //TODO: Sets this to argument.
         return ast;
-        // TODO: 
 
+      case 'TaggedTemplateExpression':
+         ret = {
+          type: "TaggedTemplateExpression",
+          tag: ast_reduce_scoped(ast.tag),
+          quasi: ast_reduce_scoped(ast.quasi)
+         }
+         return ret;
+       break;
+ 
+      case 'TemplateLiteral':
+        // It's the argument of a taggedTemplateExpression 
+        if (parent.quasi && parent.quasi === ast) {
+          // We need to keep the Template Literal
+          // to keep the original behavior of the taggedTemplateExpression
+          // but we reduce all the 
+          ast.quasis.forEach(function(el, id) {
+            if (el.value.cooked) {
+              el.value.raw = el.value.cooked;
+            }
+            if (!el.tail) {
+              ast.expressions[id] = ast_reduce_scoped(ast.expressions[id]);
+            }
+          });
+          return ast;
+        } else {
+          //else we transform it as a string concat.
+          //Some part inspired by https://github.com/babel/babel/blob/master/packages/babel-plugin-transform-template-literals/src/index.js
+          //TODO: complete implementation for: https://github.com/babel/babel/pull/5791
+          _tmp = [mkliteral("")];
+          _trv = ast.expressions.slice(0);
+          ast.quasis.forEach(function(el, id) {
+            if (el.value.cooked) {
+              _tmp.push(mkliteral(el.value.cooked));
+            }
+            if (!el.tail) {
+              _tmp.push(ast_reduce_scoped(_trv[id]));
+            }
+          });
+          ret = {
+            type: "BinaryExpression",
+            left: {},
+            operator: '+',
+            right: _tmp.pop()
+          }
+          _trv = ret;
+          while (_tmp.length) {
+            if (_tmp.length === 1) {
+              _trv.left = _tmp.pop();
+            } else {
+              _trv.left = {
+                type: "BinaryExpression",
+                left: {},
+                operator: '+',
+                right: _tmp.pop()
+              }
+            }
+            _trv = _trv.left;
+          }
+          return ast_reduce_scoped(ret);
+        }
+        break;
+      
+      // TODO:
       case 'ArrowFunctionExpression':
         return ast
         // TODO: 
