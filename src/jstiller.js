@@ -692,6 +692,7 @@ var jstiller = (function() {
         type: 'UnaryExpression',
         operator: '-',
         value: value,
+        pure: true,
         argument: {
           type: 'Literal',
           pure: true,
@@ -790,7 +791,7 @@ var jstiller = (function() {
   }
 
   function getValue(e) {
-    return typeof e.value !== "undefined" ? e.value : (e.retVal ? e.retVal.value : null);
+    return typeof e.value !== "undefined" ? e.value : e.regex ? new RegExp(e.regex.pattern,e.regex.flags) : (e.retVal ? e.retVal.value : null);
   }
 
   //var incall=false  Added for knowing when we are in a calling state or declarative.
@@ -945,12 +946,16 @@ var jstiller = (function() {
                   if (right.property.name === "constructor" || (!scope.closed && scope !== gscope))
                     // if we're in a !expandVars situation we should'n expand undefined values
                     rightV = toString(undefOrObj);
-                  else
+                  else if(!getObjectPath(undefOrObj)){ 
+                  // if cannot get Object path means that it's probably not stringable
+                  // like aa().test+'bb'
+                    rightV = toString(undefOrObj);
+                  } else {
                     rightV = toString(undefObj);
                     // rightV=toString({type: "Identifier",
                     //                    "name": "undefined"
                     //                  });
-
+                  }
                 }
               } else if (right.type !== "ObjectExpression")
                 rightV = toString(right);
@@ -986,8 +991,13 @@ var jstiller = (function() {
                 } else {
                   if (left.property.name === "constructor" || (!scope.closed && scope !== gscope))
                     leftV = toString(undefOrObj);
-                  else
+                  else if(!getObjectPath(undefOrObj)){ 
+                  // if cannot get Object path means that it's probably not stringable
+                  // like aa().test+'bb'
+                    leftV = toString(undefOrObj);
+                  } else {
                     leftV = toString(undefObj);
+                  }
                 }
               } else if (left.type !== "ObjectExpression")
                 leftV = toString(left);
@@ -2009,7 +2019,7 @@ var jstiller = (function() {
                 }
               }
               if (ret.arguments.length < realCallee.resolve_to.params.length) {
-                for (var i = 0, l = realCallee.resolve_to.params.length - ret.arguments.length; i < realCallee.resolve_to.params.length; i++)
+                for (var i = 0, l = realCallee.resolve_to.params.length - ret.arguments.length; i < l; i++)
                   ret.arguments.push({
                     type: "Identifier",
                     name: "undefined"
@@ -2748,7 +2758,7 @@ var jstiller = (function() {
         }]
         return ret;
 
-
+      case 'ArrowFunctionExpression':
       case 'FunctionExpression':
       //Eg var t=function f(b){cc}  ; t=function f(b){cc} ; (function g(){})..
 
@@ -3096,7 +3106,15 @@ var jstiller = (function() {
           tag: ast_reduce_scoped(ast.tag),
           quasi: ast_reduce_scoped(ast.quasi)
          }
-         return ret;
+         _tmp = ast_reduce_scoped({
+              type: "CallExpression",
+              callee: ret.tag,
+              arguments: [ret.quasi]
+            });
+        if(_tmp.type === 'CallExpression')
+          return ret;
+        else
+          return _tmp;
        break;
  
       case 'TemplateLiteral':
@@ -3151,10 +3169,7 @@ var jstiller = (function() {
           return ast_reduce_scoped(ret);
         }
         break;
-      
-      // TODO:
-      case 'ArrowFunctionExpression':
-        return ast
+
         // TODO: 
 
       case 'AwaitExpression':
