@@ -48,9 +48,15 @@ app.all('/deobfuscate', function(req, res, next) {
 app.post(server_config.rest_api_deobfuscate, function(req, res) {
 
   try {
-    var ast = esmangle.optimize(esprima.parse(req.body.source), pass(), {
+    var ast = esprima.parse(req.body.source);
+    try{
+    ast = esmangle.optimize(ast, pass(), {
       destructive: true
     });
+    }catch(e){
+      console.error("[EE] Problem in mangling",e);
+      console.error("[II] Mangle normalization were not performed due to errors. the code is going to be passed as it is to JSTillery");
+    }
     esdeob.init();
     ast = esdeob.deobfuscate(ast, null, true);
 

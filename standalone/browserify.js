@@ -20,10 +20,16 @@ window.deobfuscate = function deob(code, normalizejs) {
     return ast;
   }
   var ast = astFromCode(code, true)
-  if(normalizejs)
-    ast = esmangle.optimize(ast, pass(), {
-      destructive: true
-    });
+  if (normalizejs) {
+    try {
+      ast = esmangle.optimize(ast, pass(), {
+        destructive: true
+      });
+    } catch (e) {
+      console.error("[EE] Problem in mangling", e);
+      console.error("[II] Mangle normalization were not performed due to errors. the code is going to be passed as it is to JSTillery");
+    }
+  }
   esdeob.init();
   try {
     ast = esdeob.deobfuscate(ast, null, true);
