@@ -2862,12 +2862,30 @@ var jstiller = (function() {
         scope.returns = scope.hasOwnProperty("returns") ? ++scope.returns : 1;
 
         debug("ReturnStatement :", (value), (ast.argument))
-        ret = {
-          type: 'ReturnStatement',
-          argument: (value && value.pure === true) || scope.closed ? value : ast.argument
-        };
-        ret.pure = ret.argument && (ret.argument.pure || ret.argument.pured || ret.argument.purable || (ret.argument.type === "Identifier" && global_vars.indexOf(ret.argument.name) !== -1));
-
+        if (value.type === 'SequenceExpression') {
+          ret = {
+            type: 'BlockStatement',
+            body: []
+          };
+          value.expressions.forEach(function(el, id) {
+            if (id === value.expressions.length-1){
+              ret.body.push(
+                {
+                  type: 'ReturnStatement',
+                  argument: el,
+                  pure: el && (el.pure || el.pured || el.purable || (el.type === "Identifier" && global_vars.indexOf(el.name) !== -1))
+              });
+            } else
+              ret.body.push({"type": "ExpressionStatement",
+            "expression": el});
+          });
+        } else{
+          ret = {
+            type: 'ReturnStatement',
+            argument: (value && value.pure === true) || scope.closed ? value : ast.argument
+          };
+          ret.pure = ret.argument && (ret.argument.pure || ret.argument.pured || ret.argument.purable || (ret.argument.type === "Identifier" && global_vars.indexOf(ret.argument.name) !== -1));
+        }
         debug("RET PURE:", ret.pure, ret.argument === value, ret.argument === ast.argument)
         return ret;
 
