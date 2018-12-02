@@ -1,6 +1,6 @@
 {
   "allowed_origins": ".*",
-  "static_html": "/../html/",
+  "static_html": "/../build_html/",
   "rest_api_deobfuscate":"/deobfuscate",
   "port": 3001
 }

@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.12.4",
+    "browserify": "^16.2.3",
     "cheerio": "^1.0.0-rc.2",
     "compression": "^1.4.4",
     "escodegen": "",
@@ -18,7 +19,7 @@
   },
   "scripts": {
     "test": "mocha tests/tests.js",
-    "standalone": "rsync -rv html standalone/; browserify standalone/browserify.js > standalone/html/static/js/jstiller.browser.js",
+    "build_server": "rsync -rv html/ build_html; browserify standalone/browserify.js > ./build_html/static/js/jstiller.browser.js",
     "start_server": "cd server;npm start",
     "cli": "./jstillery_cli.js \"$@\"",
     "start": "npm run start_server"
