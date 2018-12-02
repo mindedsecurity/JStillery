@@ -2979,6 +2979,12 @@ var jstiller = (function() {
           consequent: ast_reduce_scoped(ast.consequent),
           alternate: ast_reduce_scoped(ast.alternate)
         };
+        // if this ternary operator is standalone, we might want to expand it as a if then else
+        if (parent.type === 'ExpressionStatement' && ast === parent.expression) {
+          ret.type = 'IfStatement';
+        } else {
+          ret.type = ast.type;
+        }
         if (ret.test.pure) {
           if (ret.test.value && ret.consequent.pure) {
             return mkliteral(ret.consequent.value);
