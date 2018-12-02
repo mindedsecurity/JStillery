@@ -2972,7 +2972,7 @@ var jstiller = (function() {
             type: ast.type
           };
 
-      case 'ConditionalExpression':
+      case 'ConditionalExpression': // a?b:c
         ret = {
           type: ast.type,
           test: ast_reduce_scoped(ast.test), //Expand or Not? Lookahead?
@@ -2980,7 +2980,10 @@ var jstiller = (function() {
           alternate: ast_reduce_scoped(ast.alternate)
         };
         // if this ternary operator is standalone, we might want to expand it as a if then else
-        if (parent.type === 'ExpressionStatement' && ast === parent.expression) {
+        if ((parent.type === 'ExpressionStatement' && ast === parent.expression )
+          // OR is the child of another ConditionalExpression 
+            || (parent.type === 'ConditionalExpression' && ast !== parent.test )
+          ) {
           ret.type = 'IfStatement';
         } else {
           ret.type = ast.type;
