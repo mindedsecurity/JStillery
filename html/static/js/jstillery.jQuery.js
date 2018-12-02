@@ -218,7 +218,7 @@
       })
     }
     var use_Remote = true;
-    var deobURL = "http://" + location.hostname + ":3001/deobfuscate";
+    var deobURL = "//" + location.hostname + ":3001/deobfuscate";
     
     function sendObfuscated(el, src) {
       if (use_Remote) {
