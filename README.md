@@ -29,11 +29,19 @@ echo 'a= String.fromCharCode(41);b=a'|  ./jstillery_cli.js
 ```
 
 ## Server
+
+Build server code:
+```
+npm run build_server 
+
+```
+
 If you wish change ```server/config_server.json```
 Then launch the server:
 ```
-npm start
+npm run start_server
 ```
+
 Visit http://0:3001/
 
 ## RESTServer
