@@ -1110,6 +1110,29 @@ var jstiller = (function() {
         ret.pure = ret.expression.pure;
         if (ret.expression.expanded) //if expanded property is set to true when we expand Function or eval
           return ast_reduce_scoped(ret.expression)
+        
+        /// Transforms SequenceExpression a,b,c to BlockStatement a;b;c; but only if it is standalone (Ie not in another expression)
+        /*
+        c=3;
+        test,v=4,h=4;
+        -->
+        c = 3;
+        test;
+        v = 4;
+        h = 4;
+        */
+        if(ret.expression.type === 'SequenceExpression' && (parent.type === 'BlockStatement' || parent.type === 'Program')){
+          _tmp = ret.expression.expressions.map(el => {return {type:'ExpressionStatement',expression: el}})
+          ret = {
+            type: 'Program', // This is a hack because we need to return a ast node, and we actually have n nodes in a block.
+                            // so instead of using BlockStatement, which would be rewritten as {.expressions..}, we use Program 
+                            // expressions are not surrounded by brackets.
+            body: _tmp
+          };
+          parent.body[parent.body.indexOf(ast.expression)] = ret;
+          //parent.body.splice.apply(parent.body,[parent.body.indexOf(ast.expression),1].concat(_tmp));
+          return ret;
+        }
 
         return ret;
 
@@ -1141,8 +1164,9 @@ var jstiller = (function() {
 
           } else if (ret.left.type === 'Identifier') {
             _tmp = findScope(ret.left.name, scope);
-            if (((_tmp && _tmp.scope !== scope) /*|| !_tmp not found*/ ) && scope.externalRefs.indexOf(ret.left) !== -1)
-              scope.externalWrite = true;
+            if (((_tmp && _tmp.scope !== scope) /*|| !_tmp not found*/ ) && scope.externalRefs.indexOf(ret.left) !== -1){
+              scope.externalWrite = true;              
+            }
           }
         }
         // *= += etc compound assignment
@@ -3056,11 +3080,15 @@ var jstiller = (function() {
         return ret;
 
       case 'SequenceExpression':
-        return {
+        ret = {
           type: ast.type,
           expressions: ast.expressions.map(ast_reduce_scoped)
         };
 
+        if(parent.type === 'BlockStatement'){
+          console.log(parent);
+        }
+        return ret;
       case 'UpdateExpression':
         arg = ast_reduce_scoped(ast.argument);
         debug('UpdateExpression', arg, ast.argument)
