@@ -2835,7 +2835,7 @@ var jstiller = (function() {
           (ret.body && ret.body.body && ret.body.body.length > 0 && ret.body.body[ret.body.body.length - 1].type === "ReturnStatement")) {
           ret.callable = true;
         }
-        ret.leadingComments = [{
+        ret.body.leadingComments = [{
           type: "block",
           value: " Called:" + ast.called + " | Scope Closed:" + fscope.closed +
             (!fscope.closed ? "| writes:" + (fscope.externalWrite ? true : false) : "")
