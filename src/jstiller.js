@@ -2906,7 +2906,31 @@ var jstiller = (function() {
               ret.body.push({"type": "ExpressionStatement",
             "expression": el});
           });
-        } else{
+        } else if(value.type === 'ConditionalExpression'){ 
+          /*
+          rewrites 
+          function e(){return a?r:g;}
+          to
+          function e()
+            {
+                if (a)
+                    return r;
+                else
+                    return g;
+            }
+          */
+          ret = {};
+          ret.type = 'IfStatement';
+          ret.test = value.test;
+          ret.consequent = {
+            type: 'ReturnStatement',
+            argument: value.consequent
+          };
+          ret.alternate = {
+            type: 'ReturnStatement',
+            argument: value.alternate
+          };
+        } else {
           ret = {
             type: 'ReturnStatement',
             argument: (value && value.pure === true) || scope.closed ? value : ast.argument
