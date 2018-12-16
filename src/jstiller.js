@@ -3095,6 +3095,15 @@ var jstiller = (function() {
             ret.arguments.map(getValue));
           return mkliteral(value);
         }
+        // RegExp(X) > /X/i
+        if (match(ret.callee, {
+            type: 'Identifier',
+            name: 'RegExp'
+          }) && ret.purearg) {
+          value = RegExp.apply(null,
+            ret.arguments.map(getValue));
+          return mkliteral(value);
+        }
         if (match(ret.callee, {
             type: "Identifier",
             name: "Date"
