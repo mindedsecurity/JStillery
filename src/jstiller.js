@@ -1103,6 +1103,9 @@ var jstiller = (function() {
         return ret;
 
       case 'ExpressionStatement':
+        if(ast.expression.type === 'ConditionalExpression'){
+          ast.expression.canbetransformed = true;
+        }
         ret = {
           type: ast.type,
           expression: ast_reduce_scoped(ast.expression)
@@ -2293,7 +2296,11 @@ var jstiller = (function() {
         })
         ret.simpleType = ret.elements.every(function(a) {
           debug("SIMPLETYPE: ", a); return a.type === "Literal"
-        })
+        });
+        ret.elements.forEach((el,index )=> {el.leadingComments=[{
+          type: "block",
+          value: "["+index+"]"
+        }]});
         return ret;
 
       case 'ObjectExpression':
@@ -3026,14 +3033,16 @@ var jstiller = (function() {
       case 'ConditionalExpression': // a?b:c
         ret = {
           type: ast.type,
+          canbetransformed: ast.canbetransformed || parent.canbetransformed,
           test: ast_reduce_scoped(ast.test), //Expand or Not? Lookahead?
           consequent: ast_reduce_scoped(ast.consequent),
           alternate: ast_reduce_scoped(ast.alternate)
         };
+
         // if this ternary operator is standalone, we might want to expand it as a if then else
         if ((parent.type === 'ExpressionStatement' && ast === parent.expression )
           // OR is the child of another ConditionalExpression 
-            || (parent.type === 'ConditionalExpression' && ast !== parent.test )
+            || (parent.type === 'ConditionalExpression' && ast !== parent.test && ret.canbetransformed)
           ) {
           ret.type = 'IfStatement';
         } else {
