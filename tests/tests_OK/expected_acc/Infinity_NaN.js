@@ -1,0 +1,4 @@
+NaN;
+NaN;
+Infinity;
+Infinity;

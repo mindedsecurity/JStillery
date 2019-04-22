@@ -687,6 +687,14 @@ var jstiller = (function() {
         value: value
       };
     }
+    if (value === Infinity) {
+      return {
+        type: 'Identifier',
+        name: 'Infinity',
+        pure: true,
+        value: value
+      };
+    }
     if (value < 0) {
       return {
         type: 'UnaryExpression',
@@ -865,12 +873,14 @@ var jstiller = (function() {
       case 'BinaryExpression':
         var undefObj = {
           "type": "Identifier",
-          "name": "undefined"
+          "name": "undefined",
+          pure: true,
+          value: undefined
         };
 
         left = ast_reduce_scoped(ast.left);
         right = ast_reduce_scoped(ast.right);
-
+        
         if (!right) {
           debug("NO RIGHT!!");
           process.exit(1);
@@ -879,6 +889,7 @@ var jstiller = (function() {
           debug("NO LEFT!!");
           process.exit(1);
         }
+
         if (left.pure && right.pure && ast.operator in boperators) {
           value = mkliteral(boperators[ast.operator](left.value, right.value))
           return value;
@@ -2239,6 +2250,20 @@ var jstiller = (function() {
             valFromScope.pure = valFromScope.value.pure;
         } else if (global_vars.indexOf(ast.name) !== -1 && scope.closed !== false) {
           scope.closed = true;
+          debug(ast)
+          if (ast.name === 'undefined' && ast.value === undefined) {
+            ast.value = undefined;
+            ast.pure = true;
+          }
+          if(ast.name === 'Infinity' && ast.value === undefined){
+            ast.value = Infinity;
+            ast.pure = true;
+          }
+          if(ast.name === 'NaN' && ast.value === undefined){
+            ast.value = NaN;
+            ast.pure = true;
+          }
+          
         } else { // Problem, this Ident is called for a.b.c as well as for a 
 
           if ((parent.type !== 'MemberExpression' || ast.firstObj) && scope != gscope) {
