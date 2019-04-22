@@ -1,2 +1,2 @@
-alert;(1);
+alert(1);
 decodeURIComponent('%xx');

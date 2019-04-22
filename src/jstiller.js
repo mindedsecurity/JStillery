@@ -1577,8 +1577,15 @@ var jstiller = (function() {
             var _functionast = ast_reduce(_tast, null, true, ast);
             debug("eval _ Finished", _functionast);
             realCallee.evalued = _functionast;
-            if (_functionast.body.length === 1)
-              return _functionast.body[0];
+            if (_functionast.body.length === 1){
+               if(_functionast.body[0].type === 'ExpressionStatement')
+                return _functionast.body[0].expression;
+               else
+                return _functionast.body[0];
+            }
+            else if(_functionast.body.length === 0){
+              return mkliteral(undefined);
+            }
             else
               return { //eval is peculiar, it should be very thoroughly how and when expand it
                 "type": "ExpressionStatement",
@@ -2047,10 +2054,10 @@ var jstiller = (function() {
               }
               if (ret.arguments.length < realCallee.resolve_to.params.length) {
                 for (var i = 0, l = realCallee.resolve_to.params.length - ret.arguments.length; i < l; i++)
-                  ret.arguments.push({
+                  ret.arguments.push(mkliteral({
                     type: "Identifier",
                     name: "undefined"
-                  })
+                  }))
               }
               value = {
                 "type": "CallExpression",
@@ -2131,10 +2138,10 @@ var jstiller = (function() {
               }
               if (ret.arguments.length < realCallee.params.length) {
                 for (var i = 0, l = realCallee.params.length - ret.arguments.length; i < realCallee.params.length; i++)
-                  ret.arguments.push({
+                  ret.arguments.push(mkliteral({
                     type: "Identifier",
                     name: "undefined"
-                  })
+                  }))
               }
               debug("***************** Executing function ", genCode(ret), "in sandbox as it's closed***********");
               value = {
